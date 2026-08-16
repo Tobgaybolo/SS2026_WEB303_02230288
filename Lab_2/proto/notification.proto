@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package notification;
+
+option go_package = "Lab_2/proto";
+
+service NotificationService {
+  // Client-streaming: Order Service streams multiple updates, gets one summary back.
+  rpc SendOrderUpdates (stream OrderUpdate) returns (NotificationSummary);
+
+  // Bidirectional streaming: live two-way notification channel.
+  rpc SubscribeNotifications (stream ClientMessage) returns (stream ServerMessage);
+}
+
+message OrderUpdate {
+  string order_id = 1;
+  string status = 2;
+  string timestamp = 3;
+}
+
+message NotificationSummary {
+  int32 updates_received = 1;
+  string message = 2;
+}
+
+message ClientMessage {
+  string client_id = 1;
+  string message = 2;
+}
+
+message ServerMessage {
+  string message = 1;
+  string timestamp = 2;
+}

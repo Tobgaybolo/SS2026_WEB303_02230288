@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package discount;
+
+option go_package = "Lab_2/proto";
+
+service DiscountService {
+  // Server-streaming: pushes each active discount as a separate message.
+  rpc StreamDiscounts (DiscountRequest) returns (stream Discount);
+}
+
+message DiscountRequest {
+  string product_id = 1;
+}
+
+message Discount {
+  string discount_id = 1;
+  string description = 2;
+  double percentage_off = 3;
+}

@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package inventory;
+
+option go_package = "Lab_2/proto";
+
+service InventoryService {
+  rpc CheckStock (CheckStockRequest) returns (StockInfo);
+  rpc ReserveStock (ReserveStockRequest) returns (ReserveStockResponse);
+}
+
+message CheckStockRequest {
+  string product_id = 1;
+}
+
+message StockInfo {
+  string product_id = 1;
+  int32 quantity_available = 2;
+}
+
+message ReserveStockRequest {
+  string product_id = 1;
+  int32 quantity = 2;
+}
+
+message ReserveStockResponse {
+  bool success = 1;
+  string message = 2;
+  int32 remaining_quantity = 3;
+}
