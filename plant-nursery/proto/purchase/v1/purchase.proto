@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package nursery.purchase.v1;
+option go_package = "plant-nursery/proto/purchase/v1;purchasev1";
+
+service PurchaseService {
+  rpc CreatePurchase(CreatePurchaseRequest) returns (Purchase);
+  rpc GetPurchase(GetPurchaseRequest) returns (Purchase);
+  rpc ListPurchases(ListPurchasesRequest) returns (ListPurchasesResponse);
+  rpc UpdatePurchase(UpdatePurchaseRequest) returns (Purchase);
+  rpc DeletePurchase(DeletePurchaseRequest) returns (DeletePurchaseResponse);
+}
+
+message Purchase {
+  string id = 1;
+  string plant_id = 2;
+  string plant_name = 3;          // snapshot from Catalog at purchase time
+  int64 unit_price_cents = 4;     // snapshot from Catalog at purchase time
+  int32 quantity = 5;
+  int64 total_cents = 6;
+  string customer_name = 7;
+  string status = 8;              // PENDING | COMPLETED | CANCELLED
+  string created_at = 9;
+  bool plant_details_stale = 10;  // true when Catalog was unreachable on read
+}
+
+message CreatePurchaseRequest {
+  string plant_id = 1;
+  int32 quantity = 2;
+  string customer_name = 3;
+}
+message GetPurchaseRequest { string id = 1; }
+message ListPurchasesRequest {}
+message ListPurchasesResponse { repeated Purchase purchases = 1; }
+message UpdatePurchaseRequest {
+  string id = 1;
+  int32 quantity = 2;
+  string customer_name = 3;
+  string status = 4;
+}
+message DeletePurchaseRequest { string id = 1; }
+message DeletePurchaseResponse {}
