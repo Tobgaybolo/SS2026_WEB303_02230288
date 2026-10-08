@@ -1,0 +1,799 @@
+{
+	"info": {
+		"_postman_id": "fbf0e276-1c46-4a0a-92a1-6ab323672995",
+		"name": "Plant Nursery API",
+		"description": "REST API for the Plant Nursery system. All requests go to the API Gateway ({{baseUrl}}), which forwards them over gRPC to the Catalog service (plants) and the Purchase service (purchases). Run the Plants and Purchases folders in order the first time: Create requests save ids into collection variables used by later requests.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44237797",
+		"_collection_link": "https://bolo-1080142.postman.co/workspace/bolo's-Workspace~4fe06f4a-55de-48c8-815d-f572ce0af25c/collection/44237797-fbf0e276-1c46-4a0a-92a1-6ab323672995?action=share&source=collection_link&creator=44237797"
+	},
+	"item": [
+		{
+			"name": "Plants",
+			"item": [
+				{
+					"name": "Create Plant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
+									"pm.collectionVariables.set(\"plantId\", pm.response.json().id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Monstera deliciosa\",\n  \"species\": \"Araceae\",\n  \"price_cents\": 1299,\n  \"stock\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/plants",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"plants"
+							]
+						},
+						"description": "Creates a plant in the Catalog service. Saves its id to {{plantId}}."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Plant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/plants/{{plantId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"plants",
+								"{{plantId}}"
+							]
+						},
+						"description": "Retrieves one plant by id."
+					},
+					"response": []
+				},
+				{
+					"name": "List Plants",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/plants",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"plants"
+							]
+						},
+						"description": "Lists all plants."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Plant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Monstera deliciosa\",\n  \"species\": \"Araceae\",\n  \"price_cents\": 1499,\n  \"stock\": 8\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/plants/{{plantId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"plants",
+								"{{plantId}}"
+							]
+						},
+						"description": "Replaces all editable fields of the plant."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Temp Plant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
+									"pm.collectionVariables.set(\"tempPlantId\", pm.response.json().id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Temp Fern\",\n  \"species\": \"Pteridophyta\",\n  \"price_cents\": 500,\n  \"stock\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/plants",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"plants"
+							]
+						},
+						"description": "Throwaway plant used to demonstrate DELETE. Saves its id to {{tempPlantId}}."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Temp Plant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status is 204\", function () { pm.response.to.have.status(204); });"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/plants/{{tempPlantId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"plants",
+								"{{tempPlantId}}"
+							]
+						},
+						"description": "Deletes the temporary plant."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Deleted Plant (404)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status is 404\", function () { pm.response.to.have.status(404); });"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/plants/{{tempPlantId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"plants",
+								"{{tempPlantId}}"
+							]
+						},
+						"description": "The deleted plant no longer exists, so Catalog returns NOT_FOUND which the gateway maps to 404."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Purchases",
+			"item": [
+				{
+					"name": "Create Purchase",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
+									"pm.collectionVariables.set(\"purchaseId\", pm.response.json().id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"plant_id\": \"{{plantId}}\",\n  \"quantity\": 2,\n  \"customer_name\": \"Alice\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/purchases",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"purchases"
+							]
+						},
+						"description": "Purchase service calls Catalog over gRPC to confirm the plant exists and is in stock, then stores a snapshot of its name and price."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Purchase",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/purchases/{{purchaseId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"purchases",
+								"{{purchaseId}}"
+							]
+						},
+						"description": "Returns the purchase plus live Catalog data (current_price_cents, current_stock). If Catalog is down, returns the stored snapshot with plant_details_stale=true."
+					},
+					"response": []
+				},
+				{
+					"name": "List Purchases",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/purchases",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"purchases"
+							]
+						},
+						"description": "Lists all purchases."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Purchase",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quantity\": 2,\n  \"customer_name\": \"Alice\",\n  \"status\": \"COMPLETED\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/purchases/{{purchaseId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"purchases",
+								"{{purchaseId}}"
+							]
+						},
+						"description": "Updates quantity, customer name and status (PENDING, COMPLETED or CANCELLED)."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Purchase",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status is 204\", function () { pm.response.to.have.status(204); });"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/purchases/{{purchaseId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"purchases",
+								"{{purchaseId}}"
+							]
+						},
+						"description": "Deletes the purchase."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Error cases",
+			"item": [
+				{
+					"name": "Plant not found (404)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status is 404\", function () { pm.response.to.have.status(404); });"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/plants/00000000-0000-0000-0000-000000000000",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"plants",
+								"00000000-0000-0000-0000-000000000000"
+							]
+						},
+						"description": "gRPC NOT_FOUND maps to HTTP 404."
+					},
+					"response": []
+				},
+				{
+					"name": "Bad plant id (400)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status is 400\", function () { pm.response.to.have.status(400); });"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/plants/abc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"plants",
+								"abc"
+							]
+						},
+						"description": "Malformed UUID: gRPC INVALID_ARGUMENT maps to HTTP 400."
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid plant (400)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status is 400\", function () { pm.response.to.have.status(400); });"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"\",\n  \"species\": \"\",\n  \"price_cents\": -5,\n  \"stock\": -1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/plants",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"plants"
+							]
+						},
+						"description": "Fails validation in the Catalog service. Nothing is stored."
+					},
+					"response": []
+				},
+				{
+					"name": "Malformed JSON (400)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status is 400\", function () { pm.response.to.have.status(400); });"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/plants",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"plants"
+							]
+						},
+						"description": "Rejected by the gateway because the body is not valid JSON."
+					},
+					"response": []
+				},
+				{
+					"name": "Purchase of unknown plant (404)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status is 404\", function () { pm.response.to.have.status(404); });"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"plant_id\": \"00000000-0000-0000-0000-000000000000\",\n  \"quantity\": 1,\n  \"customer_name\": \"Alice\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/purchases",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"purchases"
+							]
+						},
+						"description": "Purchase service asks Catalog, which answers NOT_FOUND."
+					},
+					"response": []
+				},
+				{
+					"name": "Insufficient stock (409)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status is 409\", function () { pm.response.to.have.status(409); });"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"plant_id\": \"{{plantId}}\",\n  \"quantity\": 100,\n  \"customer_name\": \"Alice\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/purchases",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"purchases"
+							]
+						},
+						"description": "gRPC FAILED_PRECONDITION maps to HTTP 409. Requires the plant's stock to be below 100."
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid purchase (400)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status is 400\", function () { pm.response.to.have.status(400); });"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"plant_id\": \"abc\",\n  \"quantity\": 0,\n  \"customer_name\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/purchases",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"purchases"
+							]
+						},
+						"description": "Fails validation in the Purchase service. Nothing is stored."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Health check",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/healthz",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"healthz"
+					]
+				},
+				"description": "Gateway liveness check."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "plantId",
+			"value": ""
+		},
+		{
+			"key": "tempPlantId",
+			"value": ""
+		},
+		{
+			"key": "purchaseId",
+			"value": ""
+		}
+	]
+}
