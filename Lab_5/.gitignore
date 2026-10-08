@@ -1,5 +1,0 @@
-# per-service local dev settings (the root .env IS committed: demo values only)
-/catalog-service/.env
-/purchase-service/.env
-/gateway/.env
-*.log
